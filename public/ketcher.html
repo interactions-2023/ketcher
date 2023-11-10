@@ -1,8 +1,20 @@
 <!--# set var="title" value="Interactions - Ketcher" -->
 <!--# include file="/_includes/header.html" -->
+<script src="https://unpkg.com/htmx.org@1.9.8"></script>
+<script src="assets/javascripts/ketcher.js"></script>
 
 <div class="w-full flex flex-col items-center">
     <h1 class="text-4xl">Ketcher</h1>
 </div>
+
+<div hx-ws="connect:wss://public:public@public.cloud.shiftr.io">
+    <div id="chat_room">
+    </div>
+    <form hx-ws="send">
+        <input name="chat_message">
+    </form>
+  </div>
+
+
 
 <!--# include file="/_includes/footer.html" -->
