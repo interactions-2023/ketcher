@@ -26,7 +26,6 @@ function doSensor(e) {
 	sensor.difference = distance3D(accX, accY, accZ, accXOld, accYOld, accZOld)
 
 	if (sensor.difference > sensor.threshold) {
-		// console.log("difference: ", difference);
 		sensor.x = accX
 		sensor.y = accY
 		sensor.z = accZ
@@ -35,6 +34,8 @@ function doSensor(e) {
 		accXOld = accX
 		accYOld = accY
 		accZOld = accZ
+
+		motionDone()
 	} else {
 		sensor.hasNewValue = false
 	}

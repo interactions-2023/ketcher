@@ -1,16 +1,39 @@
 <!--# set var="title" value="Interactions - Ketcher" -->
 <!--# include file="/_includes/header.html" -->
 <script src="https://unpkg.com/htmx.org@1.9.8"></script>
+<script src="/assets/javascripts/mqtt.js"></script>
 <script src="assets/javascripts/ketcher.js"></script>
 
-<div hx-ws="connect:wss://public:public@public.cloud.shiftr.io">
-    <div id="chat_room">
-    </div>
-    <form hx-ws="send">
-        <input name="chat_message">
-    </form>
-  </div>
+<script>
+    // --- SETTING UP --------------------------------------
+    const myBroker = "wss://edp22:JlTwNIbtNIwZk0IA@edp22.cloud.shiftr.io";
 
+    const client = mqtt.connect(myBroker);
+    const myTopic = "itu/legacylink/chat";
 
+    // --- CONNECTING--------------------------------------
+    client.on('connect', function() {
+        client.subscribe(myTopic)
+    });
+
+    // --- SEND MESSAGE --------------------------------------
+    function sendMessage(msg) {
+        let JSONmsg = JSON.stringify(msg);
+        client.publish(myTopic, JSONmsg);
+    }
+
+    function motionDone() {
+        let accX = document.getElementById("accX").innerHTML = sensor.x
+        let accY = document.getElementById("accY").innerHTML = sensor.y
+        let accZ = document.getElementById("accZ").innerHTML = sensor.z
+    }
+</script>
+
+<div class="flex flex-col w-full h-screen items-center justify-center">
+    <button class="text-4xl" onclick="touchStarted()" name="Click">Click</button>
+    <p>AccX: <span id="accX"></span></p>
+    <p>AccY: <span id="accY"></span></p>
+    <p>AccZ: <span id="accZ"></span></p>
+</div>
 
 <!--# include file="/_includes/footer.html" -->
