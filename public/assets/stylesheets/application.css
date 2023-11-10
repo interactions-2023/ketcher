@@ -9,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #ddddddcd;
-    text-align: center; 
+    text-align: center;
 }
 
 header {
@@ -29,16 +29,16 @@ h1 {
     font-size: 5em;
     padding: 1em;
     color: rgb(15, 1, 1)232;
-    
+
 }
 
 p {
     color: #100101;
 }
 img {
-    width: 40%; 
-    max-width: 40%; 
-    margin: 0 auto; 
+    width: 40%;
+    max-width: 40%;
+    margin: 0 auto;
 }
 
 footer {
