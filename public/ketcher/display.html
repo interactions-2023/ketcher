@@ -1,0 +1,24 @@
+<!--# set var="title" value="Interactions - Ketcher display" -->
+<!--# include file="/_includes/header.html" -->
+<script src="/assets/javascripts/mqtt.js"></script>
+<script src="/assets/javascripts/mqttConnection.js"></script>
+<script>
+    const get = id => document.getElementById(id).innerHTML
+    const set = (id, value) => document.getElementById(id).innerHTML = value
+</script>
+
+<script>
+	client.on('message', (topic, message) => {
+        if(message == 'shake') {
+            const shake = parseInt(get('shake'))
+            set('shake', shake + 1)
+        }
+    })
+</script>
+
+<div class="flex flex-col w-full h-screen items-center justify-center">
+    <h1 class="text-4xl">Shakes</h1>
+    <p class="text-2xl"><span id="shake">0</span></p>
+</div>
+
+<!--# include file="/_includes/footer.html" -->

@@ -1,6 +1,5 @@
 h1 {
     font-family: 'Consoles', monospace, Arial, sans-serif;
-    padding: 4em;
     color: rgb(16, 1, 1);
 }
 
@@ -22,14 +21,6 @@ header {
 main {
     padding: 20px;
     line-height: 1.9;
-}
-
-h1 {
-    font-family: 'Consoles', monospace, Arial, sans-serif;
-    font-size: 5em;
-    padding: 1em;
-    color: rgb(15, 1, 1)232;
-
 }
 
 p {

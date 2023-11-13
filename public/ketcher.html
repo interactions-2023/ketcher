@@ -1,39 +1,49 @@
 <!--# set var="title" value="Interactions - Ketcher" -->
 <!--# include file="/_includes/header.html" -->
-<script src="https://unpkg.com/htmx.org@1.9.8"></script>
 <script src="/assets/javascripts/mqtt.js"></script>
-<script src="assets/javascripts/ketcher.js"></script>
+<script src="/assets/javascripts/mqttConnection.js"></script>
+<script src="/assets/javascripts/sensor.js"></script>
+<script>
+    const set = (id, value) => document.getElementById(id).innerHTML = value
+</script>
 
 <script>
-    // --- SETTING UP --------------------------------------
-    const myBroker = "wss://edp22:JlTwNIbtNIwZk0IA@edp22.cloud.shiftr.io";
+    // How much the device has to move to trigger a shake
+    sensor.threshold = 3000
+    // How long to wait between shakes (in ms)
+    let debounce = 1500
 
-    const client = mqtt.connect(myBroker);
-    const myTopic = "itu/legacylink/chat";
+    let lastShake = Date.now()
 
-    // --- CONNECTING--------------------------------------
-    client.on('connect', function() {
-        client.subscribe(myTopic)
-    });
+    function motionDone(acc) {
+        set("x", acc.x)
+        set("y", acc.y)
+        set("z", acc.z)
+        set("button", "Ready for shaking")
 
-    // --- SEND MESSAGE --------------------------------------
-    function sendMessage(msg) {
-        let JSONmsg = JSON.stringify(msg);
-        client.publish(myTopic, JSONmsg);
-    }
+        const shakeAvailable = lastShake + debounce < Date.now()
 
-    function motionDone() {
-        let accX = document.getElementById("accX").innerHTML = sensor.x
-        let accY = document.getElementById("accY").innerHTML = sensor.y
-        let accZ = document.getElementById("accZ").innerHTML = sensor.z
+        if(!shakeAvailable) return
+
+        sendMessage("shake")
+
+        lastShake = Date.now()
     }
 </script>
 
-<div class="flex flex-col w-full h-screen items-center justify-center">
-    <button class="text-4xl" onclick="touchStarted()" name="Click">Click</button>
-    <p>AccX: <span id="accX"></span></p>
-    <p>AccY: <span id="accY"></span></p>
-    <p>AccZ: <span id="accZ"></span></p>
+<div class="flex flex-col gap-2 w-full lg:grow items-center lg:justify-center">
+    <button class="text-2xl" onclick="touchStarted()" name="Click">
+        <span id="button">Click to begin</span>
+    </button>
+
+    <div class="flex flex-col">
+        <p>AccX: <span id="x"></span></p>
+        <p>AccY: <span id="y"></span></p>
+        <p>AccZ: <span id="z"></span></p>
+    </div>
+    <p>Shake: <span id="shake"></span></p>
+
+    <a href="/ketcher/display.html" class="text-xl underline">Display</a>
 </div>
 
 <!--# include file="/_includes/footer.html" -->
