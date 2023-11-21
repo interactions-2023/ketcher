@@ -4,46 +4,46 @@
 <script src="/assets/javascripts/mqttConnection.js"></script>
 <script src="/assets/javascripts/sensor.js"></script>
 <script>
-    const set = (id, value) => document.getElementById(id).innerHTML = value
+	const set = (id, value) => (document.getElementById(id).innerHTML = value)
 </script>
 
 <script>
-    // How much the device has to move to trigger a shake
-    sensor.threshold = 3000
-    // How long to wait between shakes (in ms)
-    let debounce = 1500
+	// How much the device has to move to trigger a shake
+	sensor.threshold = 3000
+	// How long to wait between shakes (in ms)
+	let debounce = 1500
 
-    let lastShake = Date.now()
+	let lastShake = Date.now()
 
-    function motionDone(acc) {
-        set("x", acc.x)
-        set("y", acc.y)
-        set("z", acc.z)
-        set("button", "Ready for shaking")
+	function motionDone(acc) {
+		set('x', acc.x)
+		set('y', acc.y)
+		set('z', acc.z)
+		set('button', 'Ready for shaking')
 
-        const shakeAvailable = lastShake + debounce < Date.now()
+		const shakeAvailable = lastShake + debounce < Date.now()
 
-        if(!shakeAvailable) return
+		if (!shakeAvailable) return
 
-        sendMessage("shake")
+		sendMessage('shake')
 
-        lastShake = Date.now()
-    }
+		lastShake = Date.now()
+	}
 </script>
 
 <div class="flex flex-col gap-2 w-full lg:grow items-center lg:justify-center">
-    <button class="text-2xl" onclick="touchStarted()" name="Click">
-        <span id="button">Click to begin</span>
-    </button>
+	<button class="text-2xl" onclick="touchStarted()" name="Click">
+		<span id="button">Click to begin</span>
+	</button>
 
-    <div class="flex flex-col">
-        <p>AccX: <span id="x"></span></p>
-        <p>AccY: <span id="y"></span></p>
-        <p>AccZ: <span id="z"></span></p>
-    </div>
-    <p>Shake: <span id="shake"></span></p>
+	<div class="flex flex-col">
+		<p>AccX: <span id="x"></span></p>
+		<p>AccY: <span id="y"></span></p>
+		<p>AccZ: <span id="z"></span></p>
+	</div>
+	<p>Shake: <span id="shake"></span></p>
 
-    <a href="/ketcher/display.html" class="text-xl underline">Display</a>
+	<a href="/ketcher/display.html" class="text-xl underline">Display</a>
 </div>
 
 <!--# include file="/_includes/footer.html" -->
